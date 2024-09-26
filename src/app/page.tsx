@@ -3,7 +3,7 @@
 import { useState, useEffect } from 'react'
 import { auth, db, googleAuthProvider } from '@/lib/firebase'
 import { signInWithPopup, signOut, onAuthStateChanged } from 'firebase/auth'
-import { doc, getDoc, setDoc, collection, addDoc, query, where, onSnapshot, deleteDoc, updateDoc } from 'firebase/firestore'
+import { doc, getDoc, setDoc, collection, addDoc, query, onSnapshot, deleteDoc, updateDoc } from 'firebase/firestore'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Textarea } from '@/components/ui/textarea'
