@@ -364,13 +364,13 @@ export default function Home() {
   if (!user) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-gradient-to-r from-blue-500 to-purple-600 dark:from-blue-900 dark:to-purple-900">
-        <Card className="w-full max-w-md">
+        <Card className="w[100%]max-w-md">
           <CardHeader>
-            <CardTitle className="text-3xl font-bold text-center">Welcome to NoteWell</CardTitle>
+            <CardTitle className="text-3xl font-bold text-center">MemoMe</CardTitle>
           </CardHeader>
           <CardContent>
-            <p className="text-center mb-6">Your personal note-taking and wellness companion</p>
-            <Button onClick={signIn} className="w-full">Sign In with Google</Button>
+            <p className="text-center mb-6">Your Buddy </p>
+            <Button onClick={signIn} className="w-[100%]">Sign In with Google</Button>
           </CardContent>
         </Card>
       </div>
@@ -383,8 +383,9 @@ export default function Home() {
       <header className="bg-white dark:bg-gray-800 shadow-md sticky top-0 z-10">
         <div className="container mx-auto px-4 py-4 flex justify-between items-center">
           {/* App Name */}
-         <a href="/"><h1  className="text-2xl font-bold text-gray-800 dark:text-white">NoteWell</h1></a> 
-  
+          
+         <a href="/"><h1  className="text-2xl font-bold text-gray-800 dark:text-white">MemoMe</h1></a> 
+          
           {/* Profile and Menu */}
           <div className="flex items-center space-x-4">
             {/* Profile */}
