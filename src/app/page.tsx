@@ -397,7 +397,6 @@ export default function Home() {
             <Button onClick={() => setDarkMode(!darkMode)} variant="outline" size="icon" className="hidden md:flex">
               {darkMode ? <Sun className="h-4 w-4" /> : <Moon className="h-4 w-4" />}
             </Button>
-  
             {/* Sign Out Button */}
             <Button onClick={signOutUser} variant="outline" size="sm" className="hidden md:flex">
               <LogOut className="w-4 h-4 mr-2" />
@@ -421,6 +420,7 @@ export default function Home() {
                     {darkMode ? <Sun className="h-4 w-4 mr-2" /> : <Moon className="h-4 w-4 mr-2" />}
                     {darkMode ? 'Light Mode' : 'Dark Mode'}
                   </Button>
+                
                   <Button onClick={signOutUser} variant="outline" size="sm" className="w-full">
                     <LogOut className="w-4 h-4 mr-2" />
                     Sign Out
@@ -445,7 +445,6 @@ export default function Home() {
         <TabsTrigger value="notes" className="flex-grow md:flex-grow-0">Notes</TabsTrigger>
         <TabsTrigger value="care" className="flex-grow md:flex-grow-0">Personal Care</TabsTrigger>
         <TabsTrigger value="reminders" className="flex-grow md:flex-grow-0">Reminders</TabsTrigger>
-        {/* <TabsTrigger value="profile" className="flex-grow md:flex-grow-0">Profile</TabsTrigger> */}
         {user.role === 'admin' && (
           <TabsTrigger value="admin" className="flex-grow md:flex-grow-0">Admin</TabsTrigger>
         )}

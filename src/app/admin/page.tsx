@@ -26,47 +26,55 @@ export default function AdminDashboard() {
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, async (firebaseUser) => {
-      if (firebaseUser) {
-        const userRef = doc(db, 'users', firebaseUser.email!)
-        const userSnap = await getDoc(userRef)
-        
-        if (userSnap.exists()) {
-          const userData = userSnap.data() as UserData
-          if (userData.role === 'admin') {
-            setUser(userData)
-            fetchStats()
+      try {
+        if (firebaseUser) {
+          const userRef = doc(db, 'users', firebaseUser.email!)
+          const userSnap = await getDoc(userRef)
+
+          if (userSnap.exists()) {
+            const userData = userSnap.data() as UserData
+            if (userData.role === 'admin') {
+              setUser(userData)
+              await fetchStats()
+            } else {
+              router.push('/')
+            }
           } else {
             router.push('/')
           }
         } else {
           router.push('/')
         }
-      } else {
-        router.push('/')
+      } catch (error) {
+        console.error("Error fetching user data: ", error)
+      } finally {
+        setLoading(false)
       }
-      setLoading(false)
     })
 
     return () => unsubscribe()
   }, [router])
 
   const fetchStats = async () => {
-    const usersSnapshot = await getDocs(collection(db, 'users'))
-    setUserCount(usersSnapshot.size)
+    try {
+      const usersSnapshot = await getDocs(collection(db, 'users'))
+      setUserCount(usersSnapshot.size)
 
-    let totalNotes = 0
-    let totalCareLogs = 0
+      const notesPromises = usersSnapshot.docs.map(async (userDoc) => {
+        const notesSnapshot = await getDocs(collection(db, `users/${userDoc.id}/notes`))
+        const careLogsSnapshot = await getDocs(collection(db, `users/${userDoc.id}/care`))
+        return { notesSize: notesSnapshot.size, careLogsSize: careLogsSnapshot.size }
+      })
 
-    for (const userDoc of usersSnapshot.docs) {
-      const notesSnapshot = await getDocs(collection(db, `users/${userDoc.id}/notes`))
-      totalNotes += notesSnapshot.size
+      const results = await Promise.all(notesPromises)
+      const totalNotes = results.reduce((sum, result) => sum + result.notesSize, 0)
+      const totalCareLogs = results.reduce((sum, result) => sum + result.careLogsSize, 0)
 
-      const careLogsSnapshot = await getDocs(collection(db, `users/${userDoc.id}/care`))
-      totalCareLogs += careLogsSnapshot.size
+      setNoteCount(totalNotes)
+      setCareLogCount(totalCareLogs)
+    } catch (error) {
+      console.error("Error fetching stats: ", error)
     }
-
-    setNoteCount(totalNotes)
-    setCareLogCount(totalCareLogs)
   }
 
   if (loading) {
